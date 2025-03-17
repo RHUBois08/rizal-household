@@ -1,0 +1,137 @@
+{% extends 'authentication/base.html' %}
+{% block top-nav %}
+    <h1><a class="underline" href="{% url 'records:index' %}">Records</a> | Household Form</h1>
+    <div class="relative">
+        <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border border-none rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+    </div>
+{% endblock %}
+{% block content %}
+
+        <!-- Form Section -->
+        <div class=" bg-white p-6 rounded-lg shadow">
+
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-medium">Barangay:</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Purok:</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium">Numero ng Bahay:</label>
+                    <input type="text" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Respondent:</label>
+                    <input type="text" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Miyembro ng PhilHealth:</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="radio" name="philhealth_member" value="yes"> <span>Oo</span>
+                        <input type="radio" name="philhealth_member" value="no"> <span>Hindi</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium">PhilHealth No.:</label>
+                    <input type="number" class="w-full p-2 border rounded" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+            </div>
+
+            <h2 class="text-xl font-semibold mt-6">Mga Pangalan na Nakatira sa Bahay</h2>
+
+            <!-- Dynamic Form Container -->
+            <div id="form-container">
+                <div class="grid grid-cols-6 gap-6 mt-5">
+                    <div class="col-span-1">
+                        <label class="block font-medium">Last Name:</label>
+                        <input type="text" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block font-medium">First Name:</label>
+                        <input type="text" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block font-medium">Middle Name:</label>
+                        <input type="text" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block font-medium">Suffix:</label>
+                        <select class="w-full p-2 border rounded">
+                            <option>Select</option>
+                            <option>Jr.</option>
+                            <option>Sr.</option>
+                            <option>I</option>
+                            <option>II</option>
+                            <option>III</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block font-medium">Posisyon sa Pamilya:</label>
+                        <select class="w-full p-2 border rounded">
+                            <option>Pumili...</option>
+                            <option>Padre de Pamilya</option>
+                            <option>Ina ng Tahanan</option>
+                            <option>Anak</option>
+                            <option>Iba pa</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Button -->
+            <div class="col-span-6 flex justify-center items-center mt-5">
+                <button onclick="addEntry()" class="bg-teal-800 text-white px-6 py-2 rounded hover:bg-teal-700">+ Add More</button>
+            </div>
+        </div>
+
+    <script>
+        function addEntry() {
+            // Get the form container
+            const container = document.getElementById("form-container");
+
+            // Create a new entry using template literals
+            const newEntry = document.createElement("div");
+            newEntry.className = "grid grid-cols-6 gap-6 mt-5";
+            newEntry.innerHTML = `
+                <div class="col-span-1">
+                    <label class="block font-medium">Last Name:</label>
+                    <input type="text" class="w-full p-2 border rounded">
+                </div>
+                <div class="col-span-1">
+                    <label class="block font-medium">First Name:</label>
+                    <input type="text" class="w-full p-2 border rounded">
+                </div>
+                <div class="col-span-1">
+                    <label class="block font-medium">Middle Name:</label>
+                    <input type="text" class="w-full p-2 border rounded">
+                </div>
+                <div class="col-span-1">
+                    <label class="block font-medium">Suffix:</label>
+                    <input type="text" class="w-full p-2 border rounded">
+                </div>
+                <div class="col-span-2">
+                    <label class="block font-medium">Posisyon sa Pamilya:</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Pumili...</option>
+                        <option>Padre de Pamilya</option>
+                        <option>Ina ng Tahanan</option>
+                        <option>Anak</option>
+                        <option>Iba pa</option>
+                    </select>
+                </div>
+            `;
+
+            // Append the new entry to the container
+            container.appendChild(newEntry);
+        }
+    </script>
+    
+{% endblock %}
