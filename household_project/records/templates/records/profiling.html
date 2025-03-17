@@ -1,0 +1,11 @@
+{% extends 'authentication/base.html' %}
+{% block top-nav %}
+    <h1>Records | <a class="underline" href="{% url 'records:hh_form' %}">Household Form</a> | Profiling</h1>
+    <div class="relative">
+        <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border border-none rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+    </div>
+{% endblock %}
+{% block content %}
+
+{% endblock %}

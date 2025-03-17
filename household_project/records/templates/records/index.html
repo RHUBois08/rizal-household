@@ -1,0 +1,45 @@
+{% extends 'authentication/base.html' %}
+{% block top-nav %}
+    <h1>Records</h1>
+    <div class="relative">
+        <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-sm"></i>
+        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border border-none rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="flex justify-end mb-4">
+        <a href="{% url 'records:hh_form' %}" class="bg-teal-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-teal-700">
+            <span class="mr-2"><i class="fas fa-plus"></i></span> Add Household
+        </a>
+    </div>
+    
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 border">Head of Household</th>
+                    <th class="px-4 py-2 border">Sex</th>
+                    <th class="px-4 py-2 border">Address</th>
+                    <th class="px-4 py-2 border">Date Profiled</th>
+                    <th class="px-4 py-2 border">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td class="px-4 py-2 border">John Doe</td>
+                    <td class="px-4 py-2 border">Male</td>
+                    <td class="px-4 py-2 border">123 Main St.</td>
+                    <td class="px-4 py-2 border">2024-03-12</td>
+                    <td class="px-4 py-2 border">
+                        <div class="flex justify-center gap-5">
+                            <button class="text-blue-500 hover:underline"><i class="fas fa-edit"></i></button>
+                            <button class="text-red-500 hover:underline"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

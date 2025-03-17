@@ -1,0 +1,46 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Household Profiling</title>
+    {% tailwind_css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        .content::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+        .content {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="flex min-h-screen font-sans">
+
+<div class="sidebar text-center bg-teal-700 text-white flex flex-col justify-between w-1/6 p-4 fixed h-full">
+    <img src="{% static 'images/RHU_logo.png' %}" alt="Logo" class="w-28 mx-auto mb-4">
+    <h2 class="text-center text-xl font-semibold mb-4">Household Profiling</h2>
+
+    <!-- Separated Sidebar Links -->
+    <a href="{% url 'dashboard:index' %}" class="block py-2 px-4 hover:bg-teal-600 transition">Dashboard</a>
+    <a href="{% url 'records:index' %}" class="block py-2 px-4 hover:bg-teal-600 transition">Records</a>
+    <a href="{% url 'barangay:index' %}" class="block py-2 px-4 hover:bg-teal-600 transition">Barangay</a>
+    <a href="{% url 'reports:index' %}" class="block py-2 px-4 hover:bg-teal-600 transition">Reports</a>
+    
+    <a href="{% url 'logout' %}" class="block py-2 px-4 mt-auto hover:bg-teal-600 transition">Logout</a>
+</div>
+
+<div class="flex flex-col w-5/6 ml-auto">
+    <div class="top-nav w-full bg-gray-300 p-4 flex justify-between items-center font-semibold text-2xl sticky top-0 right-0 z-10">
+        {% block top-nav %}{% endblock %}
+    </div>
+
+    <div class="content w-full p-4 overflow-y-auto">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
