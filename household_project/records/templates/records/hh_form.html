@@ -7,105 +7,119 @@
     </div>
 {% endblock %}
 {% block content %}
+    {% if message %}
+        <div class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
+            <p class="font-bold">Success</p>
+            <p class="text-sm">{{ message }}</p>
+        </div>
+    {% elif error %}
+        <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role="alert">
+            <p class="font-bold">Error</p>
+            <p class="text-sm">{{ error }}</p>
+        </div>
+    {% endif %}
     <!-- Form Section -->
-    <div class=" bg-white p-6 rounded-lg shadow">
-        <div class="grid grid-cols-3 gap-4">
-            <div>
-                <label class="block font-medium">Barangay:</label>
-                <select id="barangay" class="w-full p-2 border rounded" onchange="updatePurok()">
-                    <option>Select</option>
-                    <option value="ANTIPOLO">ANTIPOLO</option>                 
-                    <option value="ENTABLADO">ENTABLADO</option>
-                    <option value="LAGUAN">LAGUAN</option>
-                    <option value="PAULI-1">PAULI-1</option>
-                    <option value="PAULI-2">PAULI-2</option>
-                    <option value="POBLACION EAST">POBLACION EAST</option>
-                    <option value="POBLACION WEST">POBLACION WEST</option>
-                    <option value="POOK">POOK</option> 
-                    <option value="TALA">TALA</option>
-                    <option value="TALAGA">TALAGA</option>
-                    <option value="TUY">TUY</option>
-                </select>
-            </div>
-            <div>
-                <label class="block font-medium">Purok:</label>
-                <select id="purok" class="w-full p-2 border rounded" onchange="updateHouseholdNumber()">
-                    <option>Select</option>
-                </select>
-            </div>
-            <div>
-                <label id="household-number" class="block font-medium">Numero ng Bahay:</label>
-                <input type="text" id="householdNumber" class="w-full p-2 border rounded" oninput="limitHouseholdNumber()">
-            </div>
-            <div>
-                <label class="block font-medium">Respondent:</label>
-                <input type="text" class="w-full p-2 border rounded">
-            </div>
-            <div>
-                <label class="block font-medium">Miyembro ng PhilHealth:</label>
-                <div class="flex items-center space-x-2">
-                    <input type="radio" name="philhealth_member" value="yes"> <span>Oo</span>
-                    <input type="radio" name="philhealth_member" value="no"> <span>Hindi</span>
-                </div>
-            </div>
-            <div>
-                <label class="block font-medium">PhilHealth No.:</label>
-                <input type="number" class="w-full p-2 border rounded" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-            </div>
-        </div>
-
-        <h2 class="text-xl font-semibold mt-6">Mga Pangalan na Nakatira sa Bahay</h2>
-
-        <!-- Dynamic Form Container -->
-        <div id="form-container">
-            <div class="grid grid-cols-6 gap-6 mt-5">
-                <div class="col-span-1">
-                    <label class="block font-medium">Last Name:</label>
-                    <input type="text" class="w-full p-2 border rounded">
-                </div>
-                <div class="col-span-1">
-                    <label class="block font-medium">First Name:</label>
-                    <input type="text" class="w-full p-2 border rounded">
-                </div>
-                <div class="col-span-1">
-                    <label class="block font-medium">Middle Name:</label>
-                    <input type="text" class="w-full p-2 border rounded">
-                </div>
-                <div class="col-span-1">
-                    <label class="block font-medium">Suffix:</label>
-                    <select class="w-full p-2 border rounded">
-                        <option>N/A</option>
-                        <option>Jr.</option>
-                        <option>Sr.</option>
-                        <option>I</option>
-                        <option>II</option>
-                        <option>III</option>
+    <form method="post" action="{% url 'records:save_household' %}" onsubmit="return showPopup()">
+        {% csrf_token %}
+        <div class=" bg-white p-6 rounded-lg shadow">
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="block font-medium">Barangay:</label>
+                    <select id="barangay" name="barangay" class="w-full p-2 border rounded" onchange="updatePurok()">
+                        <option>Select</option>
+                        <option value="ANTIPOLO">ANTIPOLO</option>                 
+                        <option value="ENTABLADO">ENTABLADO</option>
+                        <option value="LAGUAN">LAGUAN</option>
+                        <option value="PAULI-1">PAULI-1</option>
+                        <option value="PAULI-2">PAULI-2</option>
+                        <option value="POBLACION EAST">POBLACION EAST</option>
+                        <option value="POBLACION WEST">POBLACION WEST</option>
+                        <option value="POOK">POOK</option> 
+                        <option value="TALA">TALA</option>
+                        <option value="TALAGA">TALAGA</option>
+                        <option value="TUY">TUY</option>
                     </select>
                 </div>
-                <div class="col-span-2">
-                    <label class="block font-medium">Posisyon sa Pamilya:</label>
-                    <select class="w-full p-2 border rounded">
-                        <option>Pumili...</option>
-                        <option>Padre de Pamilya</option>
-                        <option>Ina ng Tahanan</option>
-                        <option>Anak</option>
-                        <option>Iba pa</option>
+                <div>
+                    <label class="block font-medium">Purok:</label>
+                    <select id="purok" name="purok" class="w-full p-2 border rounded" onchange="updateHouseholdNumber()">
+                        <option>Select</option>
                     </select>
                 </div>
+                <div>
+                    <label id="household-number" class="block font-medium">Numero ng Bahay:</label>
+                    <input type="text" id="householdNumber" name="house_number" class="w-full p-2 border rounded" oninput="limitHouseholdNumber()">
+                </div>
+                <div>
+                    <label class="block font-medium">Respondent:</label>
+                    <input type="text" name="respondent" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-medium">Miyembro ng PhilHealth:</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="radio" name="philhealth_member" value="yes"> <span>Oo</span>
+                        <input type="radio" name="philhealth_member" value="no"> <span>Hindi</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium">PhilHealth No.:</label>
+                    <input type="number" name="philhealth_number" class="w-full p-2 border rounded" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+            </div>
+
+            <h2 class="text-xl font-semibold mt-6">Mga Pangalan na Nakatira sa Bahay</h2>
+
+            <!-- Dynamic Form Container -->
+            <div id="form-container">
+                <div class="grid grid-cols-6 gap-6 mt-5">
+                    <div class="col-span-1">
+                        <label class="block font-medium">Last Name:</label>
+                        <input type="text" name="last_name[]" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block font-medium">First Name:</label>
+                        <input type="text" name="first_name[]" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block font-medium">Middle Name:</label>
+                        <input type="text" name="middle_name[]" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block font-medium">Suffix:</label>
+                        <select name="suffix[]" class="w-full p-2 border rounded">
+                            <option>N/A</option>
+                            <option>Jr.</option>
+                            <option>Sr.</option>
+                            <option>I</option>
+                            <option>II</option>
+                            <option>III</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block font-medium">Posisyon sa Pamilya:</label>
+                        <select name="position[]" class="w-full p-2 border rounded">
+                            <option>Pumili...</option>
+                            <option>Padre de Pamilya</option>
+                            <option>Ina ng Tahanan</option>
+                            <option>Anak</option>
+                            <option>Iba pa</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="person_id[]" value="">
+                </div>
+            </div>
+
+            <!-- Add Button -->
+            <div class="col-span-6 flex justify-center items-center mt-5">
+                <button type="button" onclick="addEntry()" class="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700"><i class="fas fa-plus"></i> Add</button>
+            </div>
+            <div class="col-span-6 flex justify-center items-center mt-5">
+                <button type="submit" class="border-4 border-teal-800 bg-white text-teal-700 px-6 py-2 rounded hover:bg-teal-600 hover:text-white">
+                    <i class="fas fa-save text-teal-700 hover:text-white"></i> Save
+                </button>
             </div>
         </div>
-
-        <!-- Add Button -->
-        
-        <div class="col-span-6 flex justify-center items-center mt-5">
-                <button onclick="addEntry()" class="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700"><i class="fas fa-plus"></i> Add</button>
-        </div>
-        <div class="col-span-6 flex justify-center items-center mt-5">
-            <a href="{% url 'records:profiling' %}" class="border-4 border-teal-800 bg-white text-teal-700 px-6 py-2 rounded hover:bg-teal-600 hover:text-white">
-                <i class="fas fa-save text-teal-700 hover:text-white"></i> Save
-            </a>
-        </div>
-    </div>
+    </form>
 
     <script>
         const purokData = {
@@ -165,7 +179,8 @@
 
             if (selectedBarangay && selectedPurok && selectedBarangay in barangayCode) {
                 const barangayCodeValue = barangayCode[selectedBarangay];
-                householdNumberInput.value = `2025-${barangayCodeValue}-${selectedPurok}-00000`;
+                const currentYear = new Date().getFullYear();
+                householdNumberInput.value = `${currentYear}-${barangayCodeValue}-${selectedPurok}-00000`;
             } else {
                 householdNumberInput.value = '';
             }
@@ -190,23 +205,30 @@
             newEntry.innerHTML = `
                 <div class="col-span-1">
                     <label class="block font-medium">Last Name:</label>
-                    <input type="text" class="w-full p-2 border rounded">
+                    <input type="text" name="last_name[]" class="w-full p-2 border rounded">
                 </div>
                 <div class="col-span-1">
                     <label class="block font-medium">First Name:</label>
-                    <input type="text" class="w-full p-2 border rounded">
+                    <input type="text" name="first_name[]" class="w-full p-2 border rounded">
                 </div>
                 <div class="col-span-1">
                     <label class="block font-medium">Middle Name:</label>
-                    <input type="text" class="w-full p-2 border rounded">
+                    <input type="text" name="middle_name[]" class="w-full p-2 border rounded">
                 </div>
                 <div class="col-span-1">
                     <label class="block font-medium">Suffix:</label>
-                    <input type="text" class="w-full p-2 border rounded">
+                    <select name="suffix[]" class="w-full p-2 border rounded">
+                        <option>N/A</option>
+                        <option>Jr.</option>
+                        <option>Sr.</option>
+                        <option>I</option>
+                        <option>II</option>
+                        <option>III</option>
+                    </select>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-medium">Posisyon sa Pamilya:</label>
-                    <select class="w-full p-2 border rounded">
+                    <select name="position[]" class="w-full p-2 border rounded">
                         <option>Pumili...</option>
                         <option>Padre de Pamilya</option>
                         <option>Ina ng Tahanan</option>
@@ -214,6 +236,7 @@
                         <option>Iba pa</option>
                     </select>
                 </div>
+                <input type="hidden" name="person_id[]" value="">
                 <button type="button" class="absolute top-0 right-0 text-red-500" onclick="removeEntry(this)"><i class="fas fa-times "></i></button>
             `;
 
@@ -224,6 +247,11 @@
         function removeEntry(button) {
             // Remove the entry
             button.parentElement.remove();
+        }
+
+        function showPopup() {
+            alert("Data has been saved successfully.");
+            return true;
         }
     </script>
 {% endblock %}
